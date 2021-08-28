@@ -13,3 +13,29 @@ admin.initializeApp({
     databaseURL: "https://cloudfunctions-583e9-default-rtdb.firebaseio.com",
 });
 
+const db= admin.firestore();//aqui usamos admin que ya esta autorizado para usar los servicios, que queremos usar el servicio firestore
+
+app.post('/api/products', async (req, res)=> {
+    try {
+        await db.collection('products').doc(`/${req.body.id}/`).create({
+            name: req.body.name
+        });
+    
+        return res.status(200).json({
+            status: 200,
+            msg: "El producto se agrego correctamente"
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+})
+
+app.get('/hello-world', (req, res)=> {
+    return res.status(200).json({
+        message: "Hello world"
+    })
+});
+
+
+exports.app= functions.https.onRequest(app)
