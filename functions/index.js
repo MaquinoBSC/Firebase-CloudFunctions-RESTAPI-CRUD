@@ -73,11 +73,49 @@ app.get('/api/products', (req, res)=> {
 });
 
 
+app.delete('/api/products/:product_id', async(req, res)=> {
+    try {
+        const product_id= req.params.product_id;
+        const doc= db.collection('products').doc(product_id);
+        await doc.delete();
+        
+        return res.status(200).json({
+            product_id,
+            message: "Producto elminado correctamente",
+        });
+
+    } catch (error) {
+        res.status(500).send(error);
+    }
+});
+
+
+app.put('/api/products/:product_id', async(req, res)=> {
+    try {
+        const product_id= req.params.product_id;    
+        const doc= db.collection('products').doc(product_id);
+        
+        await doc.update({
+            name: req.body.name,
+        });
+        
+        res.status(200).json({
+            product_id,
+            msg: "Producto actualizado correctamente"
+        });
+    } catch (error) {
+        res.status(500).json(error)
+    }
+})
+
+
 app.get('/hello-world', (req, res)=> {
     return res.status(200).json({
         message: "Hello world"
     })
 });
+
+
 
 
 exports.app= functions.https.onRequest(app)
