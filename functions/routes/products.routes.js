@@ -3,13 +3,6 @@ const {Router}= require('express');
 const router= Router();
 
 
-admin.initializeApp({
-    //permissions es un archivo que se descarga en firebase (configuracion del proyecto -> cuentas de servicio -> generar nueva clave privada)
-    credential: admin.credential.cert('./permissions.json'),
-    //la url la encuentramos en firebase (configuracion del proyecto -> cuentas de servicio)
-    databaseURL: "https://cloudfunctions-583e9-default-rtdb.firebaseio.com",
-});
-
 const db= admin.firestore();//aqui usamos admin que ya esta autorizado para usar los servicios, que queremos usar el servicio firestore
 
 
